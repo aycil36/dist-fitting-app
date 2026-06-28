@@ -22,27 +22,9 @@ jobs:
         run: |
           pip install streamlit scipy numpy pandas matplotlib openpyxl pyinstaller
 
-      - name: Launcher script oluştur
-        run: |
-          echo import subprocess > launcher.py
-          echo import sys >> launcher.py
-          echo import os >> launcher.py
-          echo import threading >> launcher.py
-          echo import time >> launcher.py
-          echo import webbrowser >> launcher.py
-          echo. >> launcher.py
-          echo def open_browser(): >> launcher.py
-          echo     time.sleep(3) >> launcher.py
-          echo     webbrowser.open('http://localhost:8501') >> launcher.py
-          echo. >> launcher.py
-          echo if __name__ == '__main__': >> launcher.py
-          echo     t = threading.Thread(target=open_browser) >> launcher.py
-          echo     t.start() >> launcher.py
-          echo     subprocess.run([sys.executable, '-m', 'streamlit', 'run', 'app.py', '--server.headless', 'true']) >> launcher.py
-
       - name: EXE oluştur
         run: |
-          pyinstaller --onefile --name DistFittingApp --noconsole launcher.py
+          pyinstaller --onefile --name DistFittingApp --noconsole --add-data "app.py;." launcher.py
 
       - name: EXE'yi kaydet
         uses: actions/upload-artifact@v4
